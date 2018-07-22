@@ -1,4 +1,4 @@
-package com.bubble.boot.controller;
+package com.bubble.boot.profile;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

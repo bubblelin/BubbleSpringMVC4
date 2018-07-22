@@ -1,4 +1,4 @@
-package com.bubble.boot.controller;
+package com.bubble.boot.profile;
 
 import java.util.Locale;
 
@@ -6,13 +6,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
-import com.bubble.boot.config.UserProfileSession;
 import com.bubble.boot.date.USLocalDateFormatter;
 
 import lombok.extern.slf4j.Slf4j;
@@ -24,12 +26,15 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class ProfileController {
 
-	private UserProfileSession userProfileSession;
+	private final UserProfileSession userProfileSession;
+	private final MessageSource messageSource;
 	
 	// 如果不适用spring-test框架，使用构造函数注入比域注入更好
 	@Autowired
-	public ProfileController(UserProfileSession userProfileSession) {
+	public ProfileController(UserProfileSession userProfileSession,
+			MessageSource messageSource) {
 		this.userProfileSession = userProfileSession;
+		this.messageSource = messageSource;
 	}
 	
 	/**
@@ -48,10 +53,11 @@ public class ProfileController {
 		return userProfileSession.toForm();
 	}
 	
-//	@RequestMapping("/profile")
-//	public String displayProfile(ProfileForm profileForm) {
-//		return "/profile/profilePage";
-//	}
+	@RequestMapping("/profile")
+	public String displayProfile(ProfileForm profileForm) {
+		
+		return "/profile/profilePage";
+	}
 	
 	@RequestMapping(value = "/profile", params = {"save"}, method = RequestMethod.POST)
 	public String saveProfile(@Valid ProfileForm profileForm, BindingResult bindingResult) {
@@ -61,7 +67,8 @@ public class ProfileController {
 		}
 		userProfileSession.saveForm(profileForm); // 放在session中
 		log.debug("save ok: {}", profileForm);
-		return "redirect:/profile";
+		// return "redirect:/profile";
+		return "redirect:/search/mixed;keywords=" + String.join(",", profileForm.getTastes());
 	}
 	
 
@@ -78,4 +85,12 @@ public class ProfileController {
 		profileForm.getTastes().remove(rowId.intValue());
 		return "profile/profilePage";
 	}
+	
+	@ExceptionHandler(NullPointerException.class)
+	public ModelAndView handleNullPointerException(Locale locale){
+		ModelAndView mv = new ModelAndView("profile/profilePage");
+		mv.addObject("error", messageSource.getMessage("nullPointer.exception", null, locale));
+		return mv;
+	}
+	
 }

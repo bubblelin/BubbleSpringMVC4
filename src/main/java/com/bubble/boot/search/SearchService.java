@@ -1,4 +1,4 @@
-package com.bubble.boot.service;
+package com.bubble.boot.search;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,14 +22,15 @@ public class SearchService {
 		this.twitter = twitter;
 	}
 	
-	public List<Tweet> search(String searchType, List<String> keywords){
+	public List<LightTweet> search(String searchType, List<String> keywords){
 		List<SearchParameters> searches = keywords.stream()
 		        .map(taste -> createSearchParam(searchType, taste))
 		        .collect(Collectors.toList());
 		
-		List<Tweet> results = searches.stream()
+		List<LightTweet> results = searches.stream()
 			    .map(params -> twitter.searchOperations().search(params))
 			    .flatMap(searchResults -> searchResults.getTweets().stream())
+			    .map(LightTweet::ofTweet)
 			    .collect(Collectors.toList());
 		
 		return results;
@@ -45,6 +46,10 @@ public class SearchService {
 		return SearchParameters.ResultType.RECENT;
 	}
 	
+	/**
+	 * twitter.searchOperations().search(params)的搜索操作将会接受一个
+	 * searchParameters参数用于高级查询。
+	 */
 	private SearchParameters createSearchParam(String searchType, String taste) {
 		SearchParameters.ResultType resultType = getResultType(searchType);
 		SearchParameters searchParameters = new SearchParameters(taste);

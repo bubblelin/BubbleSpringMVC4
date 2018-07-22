@@ -29,7 +29,7 @@ public class TweetController {
 	private Twitter twitter;
 	
 	
-	@RequestMapping("/")
+	@RequestMapping("/home")
 	public String home() {
 		return "searchPage";
 	}

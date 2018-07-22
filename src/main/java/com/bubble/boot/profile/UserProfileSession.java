@@ -1,4 +1,4 @@
-package com.bubble.boot.config;
+package com.bubble.boot.profile;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -7,15 +7,18 @@ import java.util.List;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
-import com.bubble.boot.controller.ProfileForm;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author yanlin
  */
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS) // 使用CGLib代理
+@Setter@Getter
 public class UserProfileSession implements Serializable{
 
 	/**
@@ -23,6 +26,7 @@ public class UserProfileSession implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	private Resource picturePath;
 	private String twitterHandle;
 	private String email;
 	private LocalDate birthDate;

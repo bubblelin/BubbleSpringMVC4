@@ -66,6 +66,12 @@
 			<artifactId>lombok</artifactId>
 			<scope>compile</scope>
 		</dependency>
+		
+		<!-- Jackson 没有提供对JSR-310 日期的内置支持，添加依赖解决 -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
