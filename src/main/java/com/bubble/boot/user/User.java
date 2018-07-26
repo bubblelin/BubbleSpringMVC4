@@ -14,4 +14,10 @@ public class User {
 	private String email;
 	private LocalDate birthDate;
 	private List<String> tastes = new ArrayList<>();
+	
+	public User() {}
+	
+	public User(String email) {
+		this.email = email;
+	}
 }

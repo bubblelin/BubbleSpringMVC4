@@ -10,7 +10,7 @@ import org.springframework.format.Formatter;
 /**
  * @author yanlin
  */
-public class USLocalDateFormatter implements Formatter<LocalDate>{
+public class ZHLocalDateFormatter implements Formatter<LocalDate>{
 
 	public static final String CHINA_PATTERN = "MM/dd/yyyy";
 	public static final String NORMAL_PATTERN = "yyyy/MM/dd";

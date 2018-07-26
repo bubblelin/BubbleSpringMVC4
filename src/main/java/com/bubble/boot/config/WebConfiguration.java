@@ -18,19 +18,24 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.util.UrlPathHelper;
 
-import com.bubble.boot.date.USLocalDateFormatter;
+import com.bubble.boot.date.ZHLocalDateFormatter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * @author yanlin
  */
 @Configuration
+@EnableSwagger2
 public class WebConfiguration extends WebMvcConfigurerAdapter{
 
 	@Override
 	public void addFormatters(FormatterRegistry registry) {
-		registry.addFormatterForFieldType(LocalDate.class, new USLocalDateFormatter());
+		registry.addFormatterForFieldType(LocalDate.class, new ZHLocalDateFormatter());
 	}
 	
 	@Bean
@@ -85,5 +90,13 @@ public class WebConfiguration extends WebMvcConfigurerAdapter{
 		ObjectMapper objectMapper = builder.createXmlMapper(false).build();
 		objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 		return objectMapper;
+	}
+	
+	@Bean
+	public Docket userApi() {
+		return new Docket(DocumentationType.SWAGGER_2)
+				.select()
+				.paths(path -> path.startsWith("/api/"))
+				.build();
 	}
 }

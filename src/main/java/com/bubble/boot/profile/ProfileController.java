@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.bubble.boot.date.USLocalDateFormatter;
+import com.bubble.boot.date.ZHLocalDateFormatter;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -42,7 +42,7 @@ public class ProfileController {
 	 */
 	@ModelAttribute("dateFormat")
 	public String localeFormat(Locale locale) {
-		return USLocalDateFormatter.getPattern(locale);
+		return ZHLocalDateFormatter.getPattern(locale);
 	}
 	
 	/**
