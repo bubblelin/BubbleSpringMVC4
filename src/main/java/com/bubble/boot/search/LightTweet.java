@@ -1,5 +1,6 @@
 package com.bubble.boot.search;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -10,8 +11,10 @@ import org.springframework.social.twitter.api.TwitterProfile;
 import lombok.Getter;
 
 @Getter
-public class LightTweet {
+public class LightTweet implements Serializable{
 
+	private static final long serialVersionUID = 1L;
+	
 	private String profileImageUrl;
 	private String user;
 	private String text;

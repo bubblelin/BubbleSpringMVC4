@@ -30,6 +30,8 @@ public class ApiSecurityConfiguration extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.antMatcher("/api/**")
+			// 禁用api的无缓存控制策略
+			//.headers().cacheControl().disable().and()
 			.httpBasic().and()
 			.csrf().disable()
 			.authorizeRequests()
