@@ -22,7 +22,7 @@ import com.bubble.boot.search.SearchParamsBuilder;
 @Service
 public class SearchCache {
 
-	protected final Log logger = LogFactory.getLog(getClass());
+	protected final Log log = LogFactory.getLog(getClass());
 	
 	private Twitter twitter;
 	
@@ -34,7 +34,7 @@ public class SearchCache {
 	
 	@Cacheable("searches")
 	public List<LightTweet> fetch(String searchType, String keyword){
-		logger.info("Cache miss for " + keyword);
+		log.info("Cache miss for " + keyword);
 		SearchParameters searchParam = SearchParamsBuilder.createSearchParam(searchType, keyword);
 		return twitter.searchOperations()
 				.search(searchParam)
